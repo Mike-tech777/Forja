@@ -1,0 +1,16 @@
+{
+  "name": "FORJA — Tracker de pesos",
+  "short_name": "FORJA",
+  "description": "Tracker de entrenamiento: pesas, cardio, natación, cuerpo y nutrición. Tus datos, en tu dispositivo.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#141518",
+  "theme_color": "#141518",
+  "lang": "es",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

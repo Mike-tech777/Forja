@@ -4,7 +4,7 @@
    Sube el número de CACHE para forzar actualización inmediata en todos los dispositivos. */
 'use strict';
 
-const CACHE = 'forja-v12';
+const CACHE = 'forja-v13';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

@@ -1,18 +1,20 @@
 /* FORJA — service worker: funcionamiento 100 % sin conexión.
-   Estrategia: sirve siempre la copia en caché al instante y actualiza en
-   segundo plano. La versión nueva queda EN ESPERA (no se activa sola): la
-   página muestra un aviso y solo al pulsar "Actualizar" se envía SKIP_WAITING.
+   Estrategia: sirve la copia en caché al instante y actualiza en segundo plano.
+   La versión nueva se activa sola (skipWaiting), así quien cierra y reabre la
+   app recibe lo último sin hacer nada. Además, si la tiene abierta, la página
+   muestra un aviso "Nueva versión" con botón Actualizar (recarga al momento).
    Sube el número de CACHE en cada release para que se detecte la actualización. */
 'use strict';
 
-const CACHE = 'forja-v15';
+const CACHE = 'forja-v16';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+  // activa la versión nueva en cuanto se instala: al reabrir se ve lo último
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
 
-// La página pide activar la versión en espera cuando el usuario pulsa "Actualizar".
+// Respaldo: si el navegador la dejó en espera, la página puede forzar el relevo.
 self.addEventListener('message', e => {
   if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });

@@ -6,7 +6,7 @@
    Sube el número de CACHE en cada release para que se detecte la actualización. */
 'use strict';
 
-const CACHE = 'forja-v16';
+const CACHE = 'forja-v17';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

@@ -6,7 +6,7 @@
    Sube el número de CACHE en cada release para que se detecte la actualización. */
 'use strict';
 
-const CACHE = 'forja-v25';
+const CACHE = 'forja-v26';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -25,6 +25,26 @@ self.addEventListener('activate', e => {
       .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
+});
+
+// Recordatorios de entreno (Web Push)
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) {}
+  e.waitUntil(self.registration.showNotification(d.title || 'FORJA', {
+    body: d.body || 'Hoy toca entrenar. La barra espera.',
+    icon: './icon-192.png',
+    badge: './icon-192.png',
+    tag: 'forja-recordatorio',
+    data: { url: './' },
+  }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(ws => {
+    for (const w of ws) if ('focus' in w) return w.focus();
+    return clients.openWindow('./');
+  }));
 });
 
 self.addEventListener('fetch', e => {
